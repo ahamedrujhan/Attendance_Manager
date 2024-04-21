@@ -1,7 +1,5 @@
 package com.example.attendence_manager_new.customer;
 
-import org.springframework.stereotype.Repository;
-
 import java.util.Collections;
 import java.util.List;
 
