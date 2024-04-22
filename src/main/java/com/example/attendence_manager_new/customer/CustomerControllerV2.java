@@ -2,23 +2,31 @@ package com.example.attendence_manager_new.customer;
 
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
-@RequestMapping(path = "api/v1/customer")
+@RequestMapping(path = "api/v2/customer")
 @RestController
-@Deprecated
-public class CustomerController {
+public class CustomerControllerV2 {
 
     private final CustomerService customerService;
 
 //    @Autowired
-    public CustomerController(CustomerService customerService) {
+    public CustomerControllerV2(CustomerService customerService) {
         this.customerService = customerService;
+    }
+
+    @GetMapping(path = "{customerId}")
+    Customer getCustomer(@PathVariable("customerId") Long id) {
+       return customerService.getCustomer(id);
+
     }
 
     @GetMapping(value = "all")
     List<Customer> getCustomers() {
-        return customerService.getCustomers();
+        return Collections.singletonList(
+                new Customer(1, "Ruju", "123")
+        );
     }
 
     @PostMapping

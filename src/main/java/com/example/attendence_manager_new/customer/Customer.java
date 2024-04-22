@@ -9,6 +9,7 @@ public class Customer {
         private final String name;
 
 
+        @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
         private final String password;
 
         //Constructor

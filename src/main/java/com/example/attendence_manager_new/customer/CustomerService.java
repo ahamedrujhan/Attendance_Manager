@@ -17,4 +17,8 @@ public class CustomerService {
     List<Customer> getCustomers() {
         return customerRepo.getCustomers();
     }
+
+    Customer getCustomer(Long id) {
+        return customerRepo.getCustomers().stream().filter(customer -> customer.getId() == id).findFirst().orElseThrow(() -> new IllegalStateException("Customer Not Found"));
+    }
 }
