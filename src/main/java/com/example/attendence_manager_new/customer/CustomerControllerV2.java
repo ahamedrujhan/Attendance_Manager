@@ -1,5 +1,7 @@
 package com.example.attendence_manager_new.customer;
 
+import com.example.attendence_manager_new.exceptions.ApiRequestException;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
@@ -22,15 +24,21 @@ public class CustomerControllerV2 {
 
     }
 
+    @GetMapping(path = "{customerId}/exception")
+    Customer getCustomerException(@PathVariable("customerId") Long id) {
+        throw new ApiRequestException("ApiRequestExeception Not Found for id " + id );
+
+    }
+
     @GetMapping(value = "all")
     List<Customer> getCustomers() {
         return Collections.singletonList(
-                new Customer(1, "Ruju", "123")
+                new Customer(1, "Ruju", "123", "email@gmail.com")
         );
     }
 
     @PostMapping
-    void createNewCutomer(@RequestBody Customer customer) {
+    void createNewCutomer(@Valid @RequestBody Customer customer) {
         System.out.println("POST REQUEST....");
         System.out.println(customer);
     }

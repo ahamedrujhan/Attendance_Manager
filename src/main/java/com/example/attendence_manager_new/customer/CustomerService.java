@@ -1,5 +1,6 @@
 package com.example.attendence_manager_new.customer;
 
+import com.example.attendence_manager_new.exceptions.NotFoundException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,6 @@ public class CustomerService {
     }
 
     Customer getCustomer(Long id) {
-        return customerRepo.getCustomers().stream().filter(customer -> customer.getId() == id).findFirst().orElseThrow(() -> new IllegalStateException("Customer Not Found"));
+        return customerRepo.getCustomers().stream().filter(customer -> customer.getId() == id).findFirst().orElseThrow(() -> new NotFoundException("Customer Not Found With id " + id));
     }
 }
