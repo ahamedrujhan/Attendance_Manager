@@ -32,9 +32,7 @@ public class CustomerControllerV2 {
 
     @GetMapping(value = "all")
     List<Customer> getCustomers() {
-        return Collections.singletonList(
-                new Customer(1, "Ruju", "123", "email@gmail.com")
-        );
+        return customerService.getCustomers();
     }
 
     @PostMapping

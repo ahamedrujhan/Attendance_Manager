@@ -2,22 +2,28 @@ package com.example.attendence_manager_new.customer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+@Entity
+@Table
 public class Customer {
 
-        private final long id;
+        @Id
+        private long id;
        @NotBlank(message = "Name must not be empty")
-        private final String name;
+        private  String name;
 
 
        @NotBlank(message = "Password must not be empty")
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-        private final String password;
+        private  String password;
 
        @Email(message = "Enter Valid Email")
-       private final String email;
+       private  String email;
         //Constructor
         public Customer(long id, String name, String password, String email) {
             this.id = id;
@@ -26,7 +32,11 @@ public class Customer {
             this.email = email;
         }
 
-        @JsonIgnore
+    public Customer() {
+
+    }
+
+    @JsonIgnore
         public String getPassword() {
         return password;
     }
