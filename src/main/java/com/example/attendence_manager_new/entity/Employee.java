@@ -2,7 +2,7 @@ package com.example.attendence_manager_new.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -44,7 +44,7 @@ public class Employee {
 
     @Column(name = "date_of_birth",
     nullable = false)
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
 
     @Column(name = "email",
     nullable = false,
@@ -54,7 +54,7 @@ public class Employee {
     nullable = false)
     private Integer status;
 
-    public Employee( String firstName, String lastName, Date dateOfBirth, String email, Integer status) {
+    public Employee(String firstName, String lastName, LocalDate dateOfBirth, String email, Integer status) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -90,11 +90,11 @@ public class Employee {
         this.lastName = lastName;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

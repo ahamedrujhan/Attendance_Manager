@@ -2,11 +2,14 @@ package com.example.attendence_manager_new;
 
 import com.example.attendence_manager_new.entity.Employee;
 import com.example.attendence_manager_new.repository.EmployeeRepository;
+import com.github.javafaker.Faker;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Sort;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -20,36 +23,36 @@ public class AttendenceManagerNewApplication {
     @Bean
     CommandLineRunner commandLineRunner (EmployeeRepository employeeRepository) {
        return args -> {
-           Employee ruju = new Employee("Ahamed", "Rujhan", new Date(2001,01,05),"ruju@gmail.com",1);
-           Employee zahran = new Employee("Ahamed", "Zahran", new Date(2006,05,12), "zah@gmail.com", 1);
-           employeeRepository.saveAll(List.of(ruju,zahran));
-
-//           employeeRepository.findEmployeeByEmail("zah@gmail.com").ifPresentOrElse(System.out::println, ()->{
-//               System.out.println("Student With zah@gmail.com not Found");
-//           });
-
-//           employeeRepository.findEmployeeByFirstNameEqualsAndStatusEquals("Ahamed",1).forEach(System.out::println);
-           System.out.println("Find All Employees first Name Ahamed");
-           employeeRepository.findEmployeeByFirstName("Ahamed").forEach(System.out::println);
-
-           System.out.println("All Employees");
-           employeeRepository.listAllEmployees().forEach(System.out::println);
-
-           System.out.println("Find Employees by Id 1");
-           System.out.println(employeeRepository.findEmployeeById(1L));
-
-           System.out.println("Find Employees By Email");
-           employeeRepository.findEmployeeByEmail("ruju@gmail.com").ifPresentOrElse(System.out::println, () -> {
-               System.out.println("Employee By Id ruju@gmail.com not found");
+                   //add 20 random employees to db
+           int noOfStudents = 20;
+           genarateRandomStudents(employeeRepository,noOfStudents);
+           Sort sortingByFirstName = Sort.by(Sort.Direction.DESC, "firstName");
+           Sort sortByFirstNameAndEmail = Sort.by("firstName").ascending().and(Sort.by("email").descending());
+           employeeRepository.findAll(sortByFirstNameAndEmail).forEach(employee -> {
+               System.out.println(employee.getFirstName() +" --- " + employee.getEmail());
            });
-
-           System.out.println("Find Employees by First Name And Last Name");
-           employeeRepository.findEmployeeByFirstNameEqualsAndLastNameEquals("Ahamed", "Rujhan").forEach(System.out::println);
-
-           System.out.println("Delete Employee By id");
-           System.out.println(employeeRepository.deleteEmployeeById(1L));
-
        };
+
+
+       }
+
+       //Genarate Random Studends Method
+    private void genarateRandomStudents(EmployeeRepository employeeRepository, int count) {
+        Faker faker = new Faker();
+        for(int i = 0; i<count; i++) {
+            String firstName = faker.name().firstName();
+            String lastName = faker.name().lastName();
+            LocalDate bod = LocalDate.now().minusYears(i).minusMonths(i-1);
+            String email = String.format("%s.%s@gmail.com", firstName,lastName);
+            Integer status = 1;
+            // Employee Object
+            Employee employee = new Employee(firstName,lastName,bod,email,status);
+            employeeRepository.save(employee);
+        }
     }
 
-}
+    ;
+
+    }
+
+
