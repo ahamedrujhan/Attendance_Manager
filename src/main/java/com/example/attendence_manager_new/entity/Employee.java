@@ -10,7 +10,7 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 @Table(
         name = "employee",
         uniqueConstraints = {
-                @UniqueConstraint(name = "student_email_unique",columnNames = {"email"})
+                @UniqueConstraint(name = "employee_email_unique",columnNames = {"email"})
         }
 )
 public class Employee {
@@ -53,6 +53,10 @@ public class Employee {
     @Column(name = "status",
     nullable = false)
     private Integer status;
+
+    //Bidirectional mapping to employee with semployee id card
+    @OneToOne(mappedBy = "employee")
+    private EmployeeIdCard employeeIdCard;
 
     public Employee(String firstName, String lastName, LocalDate dateOfBirth, String email, Integer status) {
         this.firstName = firstName;
